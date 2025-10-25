@@ -18,7 +18,7 @@ export default function LoginPage() {
         <LoginForm />
         <div className='text-muted-foreground flex flex-row text-sm'>
           <p>Don&apos;t have an account?&nbsp;</p>
-          <Link to={'/auth/signup'} className='underline'>
+          <Link to={'/auth/register'} className='underline'>
             Sign up!
           </Link>
         </div>

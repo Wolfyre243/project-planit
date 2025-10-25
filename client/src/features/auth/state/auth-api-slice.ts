@@ -3,8 +3,8 @@ import type {
   LoginRequestDTO,
   LoginResponseDTO,
   RefreshResponseDTO,
-  SignupRequestDTO,
-  SignupResponseDTO,
+  RegisterRequestDTO,
+  RegisterResponseDTO,
 } from '../auth.dto';
 
 export const authApiSlice = apiSlice.injectEndpoints({
@@ -17,9 +17,9 @@ export const authApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User'],
     }),
-    signup: builder.mutation<SignupResponseDTO, SignupRequestDTO>({
+    register: builder.mutation<RegisterResponseDTO, RegisterRequestDTO>({
       query: (credentials) => ({
-        url: '/auth/signup',
+        url: '/auth/register',
         method: 'POST',
         data: credentials,
       }),
@@ -44,7 +44,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useLoginMutation,
-  useSignupMutation,
+  useRegisterMutation,
   useRefreshMutation,
   useLogoutMutation,
 } = authApiSlice;

@@ -9,13 +9,13 @@ export type LoginResponseDTO = BaseResponseDTO<{
   accessToken: string;
 }>;
 
-export interface SignupRequestDTO {
+export interface RegisterRequestDTO {
   email: string;
   password: string;
   name: string;
 }
 
-export type SignupResponseDTO = BaseResponseDTO<{
+export type RegisterResponseDTO = BaseResponseDTO<{
   accessToken: string;
 }>;
 
