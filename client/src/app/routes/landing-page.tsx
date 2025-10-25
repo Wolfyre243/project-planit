@@ -12,7 +12,9 @@ export default function Home() {
   return (
     <div className='flex h-screen min-h-screen w-full flex-col'>
       <MainNavBar />
-      <h1>Hello world</h1>
+      <section className="h-full w-full justify-center items-center flex flex-col">
+        <h1 className="text-3xl font-semibold">Plan your day with PlanIt!</h1>
+      </section>
     </div>
   );
 }
