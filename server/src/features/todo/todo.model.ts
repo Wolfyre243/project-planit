@@ -26,8 +26,22 @@ export const deleteTodoList = async (todoListId: string, userId: string) => {
   });
 };
 
+//-------Create Todo list
+ export interface TodoListData {
+  title: string;
+  userId: string;
+ }
 
+ export const createTodoList = async ({ title, userId }: TodoListData) => {
+  return prisma.todoList.create({
+    data: { title, userId },
+  });
+ };
+
+ //-----------------------
 // Todo Operations
+//------------------------
+
 export const updateTodo = async (todoId: string, userId: string, data: { content?: string; completed?: boolean }) => {
   return await prisma.todo.update({
     where: {
@@ -55,6 +69,15 @@ export const deleteTodo = async (todoId: string, userId: string) => {
       todoList: {
         userId, // Ensures user owns the todo list that contains this todo
       },
+    },
+  });
+};
+
+export const createTodo = async (content: string, todoListId: string) => {
+  return prisma.todo.create({
+    data: {
+      content,
+      todoListId,
     },
   });
 };

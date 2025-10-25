@@ -13,11 +13,12 @@ router.use(verifyJWT);
 // Todo List Routes
 router.put('/todolists/:todoListId', todoController.updateTodoList);
 router.delete('/todolists/:todoListId', todoController.deleteTodoList);
-
+router.post('/todoList', todoController.createTodoList);
 
 // Todo Routes
 router.put('/todos/:todoId', todoController.updateTodo);
 router.delete('/todos/:todoId', todoController.deleteTodo);
+router.post('/todo', todoController.createTodoItem);
 
 
 export default router;
