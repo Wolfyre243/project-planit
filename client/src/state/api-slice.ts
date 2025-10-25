@@ -10,7 +10,7 @@ import type { RootState } from '@/state/store';
 import type { InternalAxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 
 const refreshApi = axios.create({
-  baseURL: process.env.API_BASE_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: true,
   timeout: 10000,
 });
@@ -60,7 +60,7 @@ const axiosBaseQuery =
           originalRequest._retry = true;
           console.log('Access token expired. Refreshing token...');
           try {
-            const { data: responseData } = await refreshApi.post('/api/auth/refresh');
+            const { data: responseData } = await refreshApi.post('/auth/refresh');
             console.log(responseData);
             dispatch(setAccessToken(responseData.data.accessToken));
             if (!originalRequest.headers) {
@@ -118,7 +118,7 @@ const axiosBaseQuery =
 export const apiSlice = createApi({
   reducerPath: 'api',
   // TODO: Customise query w axios + access token
-  baseQuery: axiosBaseQuery({ baseUrl: '/api' }),
+  baseQuery: axiosBaseQuery({ baseUrl: '' }),
   endpoints: () => ({}),
-  tagTypes: ['User', 'Quiz'],
+  tagTypes: ['User'],
 });

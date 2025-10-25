@@ -67,7 +67,7 @@ export const verifyRefreshToken = catchAsync(
     const token = req.cookies.refreshToken;
 
     if (!token) {
-      throw new APIError("Unauthorized", 401);
+      throw new APIError("No refresh token provided", 400);
     }
 
     try {
