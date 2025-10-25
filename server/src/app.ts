@@ -4,6 +4,7 @@ import authRouter from "./features/auth/auth.route.js";
 import cookieParser from "cookie-parser";
 import { cookieOptions } from "./config/auth.config.js";
 import { errorHandler, notFoundHandler } from "./middleware/error.middleware.js";
+import todoRouter from "./features/todo/todo.route.js";
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.get("/health", (req: Request, res: Response) => {
 });
 
 app.use("/auth", authRouter);
+app.use("/todos", todoRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
@@ -27,3 +29,4 @@ app.use(errorHandler);
 app.listen(process.env.PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${process.env.PORT}!`);
 });
+
