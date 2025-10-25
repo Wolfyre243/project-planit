@@ -82,12 +82,13 @@ export const verifyRefreshToken = catchAsync(
       );
 
       // Find user in DB
-      const user = await getUserById(payload.id);
+      const user = await getUserById({ userId: payload.id });
       res.locals.user = user;
 
       console.log(
         `✅ Successfully verified refresh token for userId: ${payload.id}`
       );
+      
       return next();
     } catch (error) {
       console.error("JWT verification failed", { error });
