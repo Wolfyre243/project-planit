@@ -64,7 +64,7 @@ export const deleteTodo = catchAsync(async (req: Request, res: Response) => {
 });
 
 //-----Create Todolist
-export const createTodoList = async (req: Request, res: Response) => {
+export const createTodoList = catchAsync(async (req: Request, res: Response) => {
   const { title } = req.body;
   const userId = res.locals.user.id;
 
@@ -82,10 +82,10 @@ export const createTodoList = async (req: Request, res: Response) => {
     console.error("Error creating todoList:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
-};
+});
 
 //-----Create Todo
-export const createTodoItem = async (req: Request, res: Response) => {
+export const createTodoItem = catchAsync(async (req: Request, res: Response) => {
   const { content, todoListId } = req.body;
 
   if (!content || !todoListId) {
@@ -102,4 +102,4 @@ return res.status(400).json({ error: "Content and todoListId are required." });
     console.error("Error creating todo:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
-};
+});
