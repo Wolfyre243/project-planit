@@ -44,7 +44,7 @@ export const login = catchAsync(async (req: Request, res: Response) => {
     throw new APIError("Invalid credentials", 401);
   }
 
-  if (!bcrypt.compare(password, user.password)) {
+  if (!bcrypt.compareSync(password, user.password)) {
     throw new APIError("Invalid credentials", 401);
   }
 
