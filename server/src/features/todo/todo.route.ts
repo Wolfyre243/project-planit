@@ -6,16 +6,18 @@ import express from 'express';
 const router = express.Router();
 
 
-// Apply authentication middleware to all todo routes
+ // Apply authentication middleware to all todo routes
 router.use(verifyJWT);
 
 
-// Todo List Routes
+ // Todo List Routes
+router.get('/todolists', todoController.getTodoLists);
+router.get('/todolists/:todoListId', todoController.getTodoList);
 router.put('/todolists/:todoListId', todoController.updateTodoList);
 router.delete('/todolists/:todoListId', todoController.deleteTodoList);
 router.post('/todoList', todoController.createTodoList);
 
-// Todo Routes
+ // Todo Routes
 router.put('/todos/:todoId', todoController.updateTodo);
 router.delete('/todos/:todoId', todoController.deleteTodo);
 router.post('/todo', todoController.createTodoItem);

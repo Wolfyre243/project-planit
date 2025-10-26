@@ -81,3 +81,28 @@ export const createTodo = async (content: string, todoListId: string) => {
     },
   });
 };
+
+// Read operations
+export const getTodoListsForUser = async (userId: string) => {
+  return prisma.todoList.findMany({
+    where: { userId },
+    include: {
+      todo: true,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+};
+
+export const getTodoListById = async (todoListId: string, userId: string) => {
+  return prisma.todoList.findFirst({
+    where: {
+      todoListId,
+      userId,
+    },
+    include: {
+      todo: true,
+    },
+  });
+};

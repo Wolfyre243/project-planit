@@ -84,6 +84,36 @@ export const createTodoList = catchAsync(async (req: Request, res: Response) => 
   }
 });
 
+//-----Read Todo Lists for user
+export const getTodoLists = catchAsync(async (req: Request, res: Response) => {
+  const userId = res.locals.user.id;
+
+  try {
+    const lists = await todoModel.getTodoListsForUser(userId);
+    return res.status(200).json(lists);
+  } catch (error) {
+    console.error("Error fetching todo lists:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+//-----Read single Todo List (with todos)
+export const getTodoList = catchAsync(async (req: Request, res: Response) => {
+  const { todoListId } = req.params;
+  const userId = res.locals.user.id;
+
+  try {
+    const list = await todoModel.getTodoListById(todoListId, userId);
+    if (!list) {
+      return res.status(404).json({ error: "Todo list not found" });
+    }
+    return res.status(200).json(list);
+  } catch (error) {
+    console.error("Error fetching todo list:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 //-----Create Todo
 export const createTodoItem = catchAsync(async (req: Request, res: Response) => {
   const { content, todoListId } = req.body;
