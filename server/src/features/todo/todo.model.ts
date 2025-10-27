@@ -106,3 +106,30 @@ export const getTodoListById = async (todoListId: string, userId: string) => {
     },
   });
 };
+
+export const getTodosByUser = async (userId: string) => {
+  return prisma.todo.findMany({
+    where: {
+      todoList: {
+        userId,
+      },
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+};
+
+export const getTodoById = async (userId: string, todoId: string | number) => {
+  return prisma.todo.findFirst({
+    where: {
+      todoId: String(todoId),
+      todoList: {
+        userId,
+      },
+    },
+    include: {
+      todoList: true,
+    },
+  });
+};
