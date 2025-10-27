@@ -87,10 +87,15 @@ export const createTodoList = catchAsync(async (req: Request, res: Response) => 
 //-----Read Todo Lists for user
 export const getTodoLists = catchAsync(async (req: Request, res: Response) => {
   const userId = res.locals.user.id;
+  console.log("Fetching todo lists for user:", userId);
 
   try {
     const lists = await todoModel.getTodoListsForUser(userId);
-    return res.status(200).json(lists);
+    return res.status(200).json({
+      status: "success",
+      message: "Todo lists fetched successfully",
+      data: lists,
+    });
   } catch (error) {
     console.error("Error fetching todo lists:", error);
     return res.status(500).json({ error: "Internal server error" });

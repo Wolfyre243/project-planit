@@ -120,5 +120,5 @@ export const apiSlice = createApi({
   // TODO: Customise query w axios + access token
   baseQuery: axiosBaseQuery({ baseUrl: '' }),
   endpoints: () => ({}),
-  tagTypes: ['User'],
+  tagTypes: ['User', 'Todo'],
 });
