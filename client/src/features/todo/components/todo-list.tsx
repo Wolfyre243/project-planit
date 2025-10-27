@@ -42,7 +42,7 @@ export function TodoListComponent({
   return (
     <div
       className={cn(
-        'bg-secondary flex h-fit w-1/4 flex-col gap-2 rounded-md p-4',
+        'bg-secondary flex h-fit w-full flex-col gap-2 rounded-md p-4',
         className,
       )}
     >

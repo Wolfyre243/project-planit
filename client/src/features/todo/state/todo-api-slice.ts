@@ -42,7 +42,7 @@ export const todoApiSlice = apiSlice.injectEndpoints({
       query: (data) => ({
         url: `/todos/lists/${data.todoListId}`,
         method: 'PUT',
-        body: { ...data, todoListId: undefined },
+        data: { ...data, todoListId: undefined },
       }),
       invalidatesTags: ['Todo'],
     }),
@@ -50,7 +50,7 @@ export const todoApiSlice = apiSlice.injectEndpoints({
       query: (data) => ({
         url: `/todos/${data.todoId}`,
         method: 'PUT',
-        body: { ...data, todoId: undefined },
+        data: { ...data, todoId: undefined },
       }),
       invalidatesTags: ['Todo'],
     }),
@@ -61,7 +61,7 @@ export const todoApiSlice = apiSlice.injectEndpoints({
       query: (data) => ({
         url: '/todos/lists',
         method: 'POST',
-        body: data,
+        data,
       }),
       invalidatesTags: ['Todo'],
     }),
@@ -72,7 +72,7 @@ export const todoApiSlice = apiSlice.injectEndpoints({
       query: (data) => ({
         url: '/todos',
         method: 'POST',
-        body: data,
+        data,
       }),
       invalidatesTags: ['Todo'],
     }),
@@ -97,4 +97,9 @@ export const {
   useGetSingleTodoListQuery,
   useGetAllTodoListsQuery,
   useUpdateTodoListMutation,
+  useUpdateTodoMutation,
+  useCreateTodoListMutation,
+  useCreateTodoMutation,
+  useDeleteTodoListMutation,
+  useDeleteTodoMutation,
 } = todoApiSlice;

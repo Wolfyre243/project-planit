@@ -1,3 +1,4 @@
+import { NewTodoList } from "@/features/todo/components/new-todo-list";
 import { TodoListGallery } from "@/features/todo/components/todo-list-gallery";
 
 export default function DashboardHomePage() {
