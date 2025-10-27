@@ -7,7 +7,6 @@ export const updateTodoList = catchAsync(async (req: Request, res: Response) => 
   const userId = res.locals.user.id;
   const { title } = req.body;
 
-
   try {
     const updatedTodoList = await todoModel.updateTodoList(todoListId, userId, { title });
     res.status(200).json({
@@ -20,7 +19,6 @@ export const updateTodoList = catchAsync(async (req: Request, res: Response) => 
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
 
 export const deleteTodoList = catchAsync(async (req: Request, res: Response) => {
   const { todoListId } = req.params;
