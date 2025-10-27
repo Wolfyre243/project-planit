@@ -61,7 +61,7 @@ const axiosBaseQuery =
           console.log('Access token expired. Refreshing token...');
           try {
             const { data: responseData } = await refreshApi.post('/auth/refresh');
-            console.log(responseData);
+            // console.log(responseData);
             dispatch(setAccessToken(responseData.data.accessToken));
             if (!originalRequest.headers) {
               originalRequest.headers = {} as AxiosRequestHeaders;
@@ -120,5 +120,5 @@ export const apiSlice = createApi({
   // TODO: Customise query w axios + access token
   baseQuery: axiosBaseQuery({ baseUrl: '' }),
   endpoints: () => ({}),
-  tagTypes: ['User'],
+  tagTypes: ['User', 'Todo'],
 });

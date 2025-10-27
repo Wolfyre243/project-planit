@@ -7,16 +7,18 @@ export const updateTodoList = catchAsync(async (req: Request, res: Response) => 
   const userId = res.locals.user.id;
   const { title } = req.body;
 
-
   try {
     const updatedTodoList = await todoModel.updateTodoList(todoListId, userId, { title });
-    res.json(updatedTodoList);
+    res.status(200).json({
+      status: 'success',
+      message: 'Todo list updated successfully',
+      data: updatedTodoList,
+    });
   } catch (error) {
     console.error('Error updating todo list:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
 
 export const deleteTodoList = catchAsync(async (req: Request, res: Response) => {
   const { todoListId } = req.params;
@@ -41,7 +43,11 @@ export const updateTodo = catchAsync(async (req: Request, res: Response) => {
 
   try {
     const updatedTodo = await todoModel.updateTodo(todoId, userId, { content, completed });
-    res.json(updatedTodo);
+    res.status(200).json({
+      status: 'success',
+      message: 'Todo updated successfully',
+      data: updatedTodo,
+    });
   } catch (error) {
     console.error('Error updating todo:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -75,8 +81,9 @@ export const createTodoList = catchAsync(async (req: Request, res: Response) => 
   try {
     const newTodoList = await todoModel.createTodoList({ title, userId });
     return res.status(201).json({
+      status: 'success',
       message: "Todo list created successfully",
-      todoList: newTodoList,
+      data: newTodoList,
     });
   } catch (error) {
     console.error("Error creating todoList:", error);
@@ -87,10 +94,15 @@ export const createTodoList = catchAsync(async (req: Request, res: Response) => 
 //-----Read Todo Lists for user
 export const getTodoLists = catchAsync(async (req: Request, res: Response) => {
   const userId = res.locals.user.id;
+  console.log("Fetching todo lists for user:", userId);
 
   try {
     const lists = await todoModel.getTodoListsForUser(userId);
-    return res.status(200).json(lists);
+    return res.status(200).json({
+      status: "success",
+      message: "Todo lists fetched successfully",
+      data: lists,
+    });
   } catch (error) {
     console.error("Error fetching todo lists:", error);
     return res.status(500).json({ error: "Internal server error" });
@@ -107,7 +119,11 @@ export const getTodoList = catchAsync(async (req: Request, res: Response) => {
     if (!list) {
       return res.status(404).json({ error: "Todo list not found" });
     }
-    return res.status(200).json(list);
+    return res.status(200).json({
+      status: "success",
+      message: "Todo list fetched successfully",
+      data: list,
+    });
   } catch (error) {
     console.error("Error fetching todo list:", error);
     return res.status(500).json({ error: "Internal server error" });
@@ -120,7 +136,11 @@ export const getUserTodos = catchAsync(async (req: Request, res: Response) => {
 
   try {
     const todos = await todoModel.getTodosByUser(userId);
-    return res.status(200).json(todos);
+    return res.status(200).json({
+      status: "success",
+      message: "Todos fetched successfully",
+      data: todos,
+    });
   } catch (error) {
     console.error("Error fetching todos:", error);
     return res.status(500).json({ error: "Internal server error" });
@@ -137,7 +157,11 @@ export const getUserTodoById = catchAsync(async (req: Request, res: Response) =>
     if (!todo) {
       return res.status(404).json({ error: "Todo not found" });
     }
-    return res.status(200).json(todo);
+    return res.status(200).json({
+      status: "success",
+      message: "Todo fetched successfully",
+      data: todo,
+    });
   } catch (error) {
     console.error("Error fetching todo:", error);
     return res.status(500).json({ error: "Internal server error" });
@@ -155,8 +179,9 @@ return res.status(400).json({ error: "Content and todoListId are required." });
   try {
   const newTodo = await todoModel.createTodo(content, todoListId);
     return res.status(201).json({
+      status: 'success',
       message: "Todo list created successfully",
-      todoList: newTodo,
+      data: newTodo,
     });
   } catch (error) {
     console.error("Error creating todo:", error);

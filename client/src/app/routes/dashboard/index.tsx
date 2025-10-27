@@ -1,7 +1,11 @@
+import { NewTodoList } from "@/features/todo/components/new-todo-list";
+import { TodoListGallery } from "@/features/todo/components/todo-list-gallery";
+
 export default function DashboardHomePage() {
   return (
     <div className='flex flex-col h-full w-full p-6'>
-      <h1>This is the dashboard</h1>
+      <h1 className="text-3xl font-semibold mb-4">Dashboard</h1>
+      <TodoListGallery />
     </div>
   );
 }
