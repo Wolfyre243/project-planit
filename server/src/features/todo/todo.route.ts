@@ -16,8 +16,10 @@ router.get('/todolists/:todoListId', todoController.getTodoList);
 router.put('/todolists/:todoListId', todoController.updateTodoList);
 router.delete('/todolists/:todoListId', todoController.deleteTodoList);
 router.post('/todoList', todoController.createTodoList);
-
+ 
  // Todo Routes
+router.get('/todos', todoController.getUserTodos);
+router.get('/todos/:todoId', todoController.getUserTodoById);
 router.put('/todos/:todoId', todoController.updateTodo);
 router.delete('/todos/:todoId', todoController.deleteTodo);
 router.post('/todo', todoController.createTodoItem);
