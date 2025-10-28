@@ -1,6 +1,8 @@
 import { cn } from '@/lib/utils';
 import { Separator } from '@/ui/separator';
 import { formatDistanceToNowStrict } from 'date-fns';
+import {useUpdateTodoListMutation,useDeleteTodoListMutation,} from '../state/todo-api-slice'
+import { useState } from 'react';
 
 interface TodoItem {
   todoId: string;
@@ -39,6 +41,29 @@ export function TodoListComponent({
   todoList: TodoList;
   className?: string;
 }) {
+
+  const [updateTodoList] = useUpdateTodoListMutation();
+  const [deleteTodoList] = useDeleteTodoListMutation();
+
+  // Local state for title editing
+  const [title, setTitle] = useState(todoList.title);
+  const [isEditing, setIsEditing] = useState(false);
+
+  // Handle save when user presses Enter or leaves input
+  const handleSaveTitle = async () => {
+    if (title.trim() !== todoList.title) {
+      await updateTodoList({
+        todoListId: todoList.todoListId,
+        title,
+      });
+    }
+    setIsEditing(false);
+  };
+
+  const handleDeleteList = async () => {
+    await deleteTodoList({ todoListId: todoList.todoListId });
+  };
+
   return (
     <div
       className={cn(
@@ -46,13 +71,48 @@ export function TodoListComponent({
         className,
       )}
     >
-      <h1 className='text-xl font-semibold'>{todoList.title}</h1>
+      <div className="flex justify-between items-center">
+        {isEditing ? (
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            onBlur={handleSaveTitle}         // Save when focus leaves input
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleSaveTitle(); // Save when Enter pressed
+              if (e.key === 'Escape') {                 // Cancel edit
+                setTitle(todoList.title);
+                setIsEditing(false);
+              }
+            }}
+            autoFocus
+            className="text-xl font-semibold bg-transparent border-b border-muted focus:outline-none focus:border-primary"
+          />
+        ) : (
+          <h1
+            className="text-xl font-semibold cursor-pointer"
+            onClick={() => setIsEditing(true)}
+          >
+            {todoList.title}
+          </h1>
+        )}
+
+        <button
+          onClick={handleDeleteList}
+          className="text-red-600 hover:underline text-sm"
+        >
+          Delete
+        </button>
+      </div>
+
       <Separator />
+
       {todoList.todo &&
         todoList.todo.map((todo: TodoItem) => (
-          <TodoItemComponent todo={todo} />
+          <TodoItemComponent key={todo.todoId} todo={todo} />
         ))}
-      <span className='text-muted-foreground text-sm'>
+
+      <span className="text-muted-foreground text-sm">
         {formatDistanceToNowStrict(todoList.updatedAt)} ago
       </span>
     </div>
