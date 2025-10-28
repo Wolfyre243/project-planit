@@ -30,6 +30,9 @@ export function TodoItemComponent({
    const [updateTodo] = useUpdateTodoMutation();
   const [deleteTodo] = useDeleteTodoMutation();
 
+  const [isEditing, setIsEditing] = useState(false);
+  const [content, setContent] = useState(todo.content);
+
   const handleToggleComplete = async () => {
     await updateTodo({
       todoId: todo.todoId,
@@ -42,6 +45,18 @@ export function TodoItemComponent({
     await deleteTodo({ todoId: todo.todoId });
   };
 
+  const handleSaveEdit = async () => {
+    // only update if user changed content
+    if (content.trim() !== todo.content) {
+      await updateTodo({
+        todoId: todo.todoId,
+        content: content.trim(),
+        completed: todo.completed,
+      });
+    }
+    setIsEditing(false);
+  };
+
   return (
     <div
       className={cn(
@@ -49,18 +64,42 @@ export function TodoItemComponent({
         className,
       )}
     >
-      <div>
+      <div className="flex items-center gap-2">
         <input
           type="checkbox"
           checked={todo.completed}
           onChange={handleToggleComplete}
         />
-        <span
-          className={cn(todo.completed ? 'line-through text-muted-foreground' : '')}
-        >
-          {todo.content}
-        </span>
+
+        {isEditing ? (
+          <input
+            type="text"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            onBlur={handleSaveEdit} // Auto-save when focus leaves
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleSaveEdit();
+              if (e.key === 'Escape') {
+                setContent(todo.content);
+                setIsEditing(false);
+              }
+            }}
+            autoFocus
+            className="bg-transparent border-b border-muted focus:outline-none focus:border-primary text-sm"
+          />
+        ) : (
+          <span
+            onClick={() => setIsEditing(true)}
+            className={cn(
+              'cursor-pointer text-sm',
+              todo.completed ? 'line-through text-muted-foreground' : ''
+            )}
+          >
+            {todo.content}
+          </span>
+        )}
       </div>
+
       <button
         onClick={handleDelete}
         className="text-red-600 hover:underline text-sm"
