@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import { Separator } from '@/ui/separator';
 import { formatDistanceToNowStrict } from 'date-fns';
-import {useUpdateTodoListMutation,useDeleteTodoListMutation,} from '../state/todo-api-slice'
+import {useUpdateTodoListMutation,useDeleteTodoListMutation,useUpdateTodoMutation, useDeleteTodoMutation} from '../state/todo-api-slice'
 import { useState } from 'react';
 
 interface TodoItem {
@@ -27,9 +27,46 @@ export function TodoItemComponent({
   todo: TodoItem;
   className?: string;
 }) {
+   const [updateTodo] = useUpdateTodoMutation();
+  const [deleteTodo] = useDeleteTodoMutation();
+
+  const handleToggleComplete = async () => {
+    await updateTodo({
+      todoId: todo.todoId,
+      completed: !todo.completed,
+      content: todo.content,
+    });
+  };
+
+  const handleDelete = async () => {
+    await deleteTodo({ todoId: todo.todoId });
+  };
+
   return (
-    <div className={cn('hover:bg-muted rounded-md', className)}>
-      <span>{todo.content}</span>
+    <div
+      className={cn(
+        'hover:bg-muted rounded-md flex justify-between items-center p-2',
+        className,
+      )}
+    >
+      <div>
+        <input
+          type="checkbox"
+          checked={todo.completed}
+          onChange={handleToggleComplete}
+        />
+        <span
+          className={cn(todo.completed ? 'line-through text-muted-foreground' : '')}
+        >
+          {todo.content}
+        </span>
+      </div>
+      <button
+        onClick={handleDelete}
+        className="text-red-600 hover:underline text-sm"
+      >
+        Delete
+      </button>
     </div>
   );
 }
