@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import { cookieOptions } from "./config/auth.config.js";
 import { errorHandler, notFoundHandler } from "./middleware/error.middleware.js";
 import todoRouter from "./features/todo/todo.route.js";
+import userRouter from "./features/user/user.route.js";
 import helmet from "helmet";
 import cors from "cors";
 
@@ -35,6 +36,7 @@ app.get("/health", (req: Request, res: Response) => {
 
 app.use("/auth", authRouter);
 app.use("/todos", todoRouter);
+app.use("/user", userRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
